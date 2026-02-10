@@ -1,0 +1,33 @@
+# Platform folders (not needed for Flutter packages)
+android/
+ios/
+web/
+linux/
+macos/
+windows/
+
+# Build artifacts
+build/
+.dart_tool/
+
+# IDE configuration
+.idea/
+.vscode/
+*.iml
+
+# Example build artifacts
+example/build/
+example/.dart_tool/
+example/android/
+example/ios/
+example/web/
+
+# Miscellaneous
+.DS_Store
+*.log
+.metadata
+.flutter-plugins-dependencies
+
+# Documentation that's internal
+DEPLOY_TO_PUB.md
+.agent/
