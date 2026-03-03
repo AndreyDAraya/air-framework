@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2026-03-03
+
+### 🔌 Air Adapters
+
+- **`AirAdapter` Base Class**: New abstract class for headless service integrations (HTTP, analytics, error tracking). Follows the same lifecycle as `AppModule` (`onBind → onInit → onDispose`) but without routes or UI.
+- **`AdapterManager`**: Standalone singleton for registering, managing, and unregistering adapters. Handles dependency checks and lifecycle events.
+- **Contract Pattern**: Adapters expose abstract contracts (e.g., `HttpClient`) so modules never couple to specific libraries. Swap implementations without touching module code.
+- **DevTools**: Added **ADAPTERS** tab to the DevTools inspector (8 tabs total: GRAPH, MODULES, ADAPTERS, STATE, PULSES, DI, PERF, LOGS).
+- **Boot Order**: Established `Adapters → Modules → App` initialization order to ensure infrastructure is ready before feature modules.
+
+### 📦 Example App
+
+- **DioAdapter Integration**: Added `adapters/dio/` to the example app with `HttpClient` contract, `DioHttpClient` implementation, and `DioAdapter`.
+- **UsersModule**: New module demonstrating the adapter pattern — fetches real data from JSONPlaceholder API through the abstract `HttpClient` (zero knowledge of Dio).
+- **Shell Navigation**: Added Users tab to the bottom navigation bar.
+
 ## [1.0.1] - 2026-02-09
 
 ### 🚀 Improvements & Fixes

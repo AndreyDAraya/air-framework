@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../dashboard/ui/views/dashboard_page.dart';
 import '../../../notes/ui/views/notes_list_page.dart';
+import '../../../users/ui/users_page.dart';
 import '../../../weather/ui/views/weather_page.dart';
 
 /// Shell page with bottom navigation.
@@ -41,6 +42,11 @@ class ShellPage extends StatelessWidget {
             selectedIcon: Icon(Icons.cloud),
             label: 'Weather',
           ),
+          NavigationDestination(
+            icon: Icon(Icons.people_outline),
+            selectedIcon: Icon(Icons.people),
+            label: 'Users',
+          ),
         ],
       ),
     );
@@ -49,6 +55,7 @@ class ShellPage extends StatelessWidget {
   int _getSelectedIndex(String location) {
     if (location.contains('/notes')) return 1;
     if (location.contains('/weather')) return 2;
+    if (location.contains('/users')) return 3;
     return 0; // Default to dashboard
   }
 
@@ -58,6 +65,8 @@ class ShellPage extends StatelessWidget {
         return const NotesListPage();
       case 2:
         return const WeatherPage();
+      case 3:
+        return const UsersPage();
       default:
         return const DashboardPage();
     }
@@ -73,6 +82,9 @@ class ShellPage extends StatelessWidget {
         break;
       case 2:
         context.go('/shell/weather');
+        break;
+      case 3:
+        context.go('/shell/users');
         break;
     }
   }

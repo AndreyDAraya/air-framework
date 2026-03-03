@@ -6,6 +6,7 @@ import 'tabs/pulses_tab.dart';
 import 'tabs/di_tab.dart';
 import 'tabs/performance_tab.dart';
 import 'tabs/logs_tab.dart';
+import 'tabs/adapters_tab.dart';
 import 'tabs/air_graph_tab.dart';
 
 /// Debug inspector widget for development
@@ -33,7 +34,7 @@ class _ModuleDebugInspectorState extends State<ModuleDebugInspector>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 7, vsync: this);
+    _tabController = TabController(length: 8, vsync: this);
     _startPerformanceMonitoring();
   }
 
@@ -58,7 +59,7 @@ class _ModuleDebugInspectorState extends State<ModuleDebugInspector>
         _fps = avgFrameTime > 0 ? 1000 / avgFrameTime : 60;
       }
 
-      if (_showContent && _tabController.index == 4) {
+      if (_showContent && _tabController.index == 5) {
         setState(() {});
       }
     }
@@ -234,6 +235,7 @@ class _ModuleDebugInspectorState extends State<ModuleDebugInspector>
               tabs: const [
                 Tab(text: 'GRAPH'),
                 Tab(text: 'MODULES'),
+                Tab(text: 'ADAPTERS'),
                 Tab(text: 'STATE'),
                 Tab(text: 'PULSES'),
                 Tab(text: 'DI'),
@@ -250,6 +252,7 @@ class _ModuleDebugInspectorState extends State<ModuleDebugInspector>
               children: [
                 const AirGraphTab(),
                 ModulesTab(onAction: _toggleExpanded),
+                const AdaptersTab(),
                 const StateTab(),
                 const PulsesTab(),
                 const DITab(),

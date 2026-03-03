@@ -2,6 +2,7 @@ import 'package:air_framework/air_framework.dart';
 
 import '../notes/ui/views/note_detail_page.dart';
 import '../notes/ui/views/notes_list_page.dart';
+import '../users/ui/users_page.dart';
 import '../weather/ui/views/weather_page.dart';
 import 'ui/views/shell_page.dart';
 
@@ -59,6 +60,11 @@ class ShellModule extends AppModule {
             AirRoute(
               path: 'weather',
               builder: (context, state) => const WeatherPage(),
+            ),
+            // Users (via DioAdapter)
+            AirRoute(
+              path: 'users',
+              builder: (context, state) => const UsersPage(),
             ),
           ],
         ),

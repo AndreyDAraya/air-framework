@@ -9,6 +9,7 @@ export 'devtools/debug_inspector.dart';
 export 'devtools/module_logger.dart';
 export 'devtools/performance_monitor.dart';
 export 'devtools/devtools_cli.dart';
+export 'devtools/tabs/adapters_tab.dart';
 export 'devtools/tabs/air_graph_tab.dart';
 export 'devtools/tabs/di_tab.dart';
 export 'devtools/tabs/logs_tab.dart';

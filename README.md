@@ -17,13 +17,13 @@ A **modular**, **reactive**, and **scalable** framework for Flutter. Build indus
 | Feature                     | Description                                                             |
 | --------------------------- | ----------------------------------------------------------------------- |
 | 🧩 **Modular Architecture** | Self-contained, independent modules with clear boundaries               |
+| 🔌 **Adapters**             | Headless service integrations (HTTP, analytics, error tracking)         |
 | ⚡ **Reactive State**       | Built-in state management using `Air State` controller with typed flows |
 | 💉 **Dependency Injection** | Type-safe DI with scoped services and lifecycle management              |
 | 🔒 **Security**             | Permission system, secure logging, and audit trails                     |
 | 🛣️ **Routing**              | Integrated routing with `go_router` support                             |
-| 🛠️ **DevTools**             | Built-in debugging panels for state, modules, and performance           |
-
-| 🧪 **Testing Utilities** | Mock controllers and test helpers included |
+| 🛠️ **DevTools**             | Built-in debugging panels for state, modules, adapters, and performance |
+| 🧪 **Testing Utilities**    | Mock controllers and test helpers included                              |
 
 ---
 
@@ -31,26 +31,21 @@ A **modular**, **reactive**, and **scalable** framework for Flutter. Build indus
 
 Every feature is a **Module**. Modules declare their dependencies explicitly and communicate via a typed **Event Bus**.
 
-```mermaid
-graph TD
-    App[App Shell] --> Notes[Notes Module]
-    App --> Weather[Weather Module]
-    App --> Dash[Dashboard Module]
+```
+App Shell
+├── Notes Module
+├── Weather Module
+└── Dashboard Module
+    ├── depends on → Notes
+    └── depends on → Weather
 
-    Dash -.->|Depends on| Notes
-    Dash -.->|Depends on| Weather
-
-    subgraph CoreF [Core Framework]
-    Core[Air Core]
-    DI[AirDI]
-    Bus[EventBus]
-    Router[AirRouter]
-    State[AirState]
-    CLI[AirCLI]
-    end
-
-    Notes --> CoreF
-    Weather --> CoreF
+Core Framework
+├── AirDI          (Dependency Injection)
+├── AirRouter      (Routing)
+├── EventBus       (Cross-module communication)
+├── AirState       (Reactive state management)
+├── AdapterManager (Infrastructure services)
+└── DevTools       (Debugging inspector)
 ```
 
 ---
@@ -61,7 +56,7 @@ Add `air_framework` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  air_framework: ^1.0.0
+  air_framework: # latest version from pub.dev
 ```
 
 For the complete development experience, also install the CLI:
@@ -161,9 +156,12 @@ void main() async {
   // 1. Configure Air State
   configureAirState();
 
-  // 2. Register Modules
+  // 2. Register Adapters (infrastructure — BEFORE modules)
+  final adapters = AdapterManager();
+  await adapters.register(DioAdapter(baseUrl: 'https://api.example.com'));
+
+  // 3. Register Modules (features — can use adapter services)
   await ModuleManager().register(CounterModule());
-  // await ModuleManager().register(AuthModule());
 
   runApp(const MyApp());
 }
@@ -183,6 +181,39 @@ class MyApp extends StatelessWidget {
 
 ---
 
+## 🔌 Adapters
+
+**Adapters** are headless service integrations. Unlike modules, they have no routes or UI — they register infrastructure services (HTTP clients, error tracking, analytics) in `AirDI` for modules to consume.
+
+```dart
+class SentryAdapter extends AirAdapter {
+  @override
+  String get id => 'sentry';
+
+  @override
+  void onBind(AirDI di) {
+    super.onBind(di);
+    // Register the abstract contract, not the concrete class
+    di.registerLazySingleton<ErrorReporter>(() => SentryReporter());
+  }
+}
+```
+
+**Key rule:** every adapter must expose an **abstract contract** so modules never couple to a specific library.
+
+```
+lib/adapters/<service>/
+├── contracts/
+│   ├── <service>_client.dart     ← abstract interface
+│   └── <service>_response.dart
+├── <service>_adapter.dart         ← AirAdapter subclass
+└── <service>_impl.dart            ← concrete implementation
+```
+
+Generate with the CLI: `air g adapter sentry`
+
+---
+
 ## 🔧 CLI Tools
 
 The **Air CLI** allows you to scaffold modules and generate state files instantly.
@@ -194,8 +225,11 @@ air create my_app --template=starter
 # Generate a new module
 air generate module inventory
 
-# Generate state code (run inside a module directory)
-air generate state
+# Generate an adapter
+air generate adapter sentry
+
+# Generate state code
+air generate state cart --module=inventory
 ```
 
 ---
