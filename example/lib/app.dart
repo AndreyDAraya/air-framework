@@ -18,7 +18,7 @@ class AirNotesApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: _buildLightTheme(),
           darkTheme: _buildDarkTheme(),
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.dark,
           routerConfig: airRouter.router,
           builder: (context, child) {
             // Wrap with DebugOverlay for DevTools access

@@ -22,6 +22,9 @@ example/android/
 example/ios/
 example/web/
 
+# Exclude backup/test example
+example_back/
+
 # Miscellaneous
 .DS_Store
 *.log

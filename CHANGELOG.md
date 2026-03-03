@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-02-09
+
+### 🚀 Improvements & Fixes
+
+- **Architecture**: Standardized `AppModule` usage to use `extends` instead of `implements` for better inheritance support.
+- **Security**: Enhanced real-time data access validation in coordination with `air_state` 1.0.2.
+- **Lifecycle**: Improved `onDispose` to ensure all cross-module subscriptions are properly cleaned up.
+- **Documentation**: Updated examples and comments to reflect the latest generator patterns.
+
 ## [1.0.0] - 2026-02-09
 
 ### 🎉 Initial Release
