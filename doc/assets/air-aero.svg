@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 500" width="100%" height="100%">
+  <!-- AIR FRAMEWORK - AERO WING -->
+  <defs>
+    <style>
+      @keyframes floatDir {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
+      }
+      @keyframes gleam {
+        0% { transform: translateX(-100%) skewX(-15deg); }
+        20%, 100% { transform: translateX(200%) skewX(-15deg); }
+      }
+      @keyframes pulseAura {
+        0%, 100% { filter: drop-shadow(0 0 10px rgba(19, 185, 253, 0.4)); transform: scale(1); }
+        50% { filter: drop-shadow(0 0 25px rgba(19, 185, 253, 0.8)); transform: scale(1.02); }
+      }
+      .g-float {
+        animation: floatDir 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .wing-left {
+        fill: url(#wingDark);
+      }
+      .wing-right {
+        fill: url(#wingLight);
+        animation: pulseAura 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .wing-cross {
+        fill: #13B9FD;
+      }
+      .logotext {
+        font-family: 'Outfit', 'Montserrat', system-ui, sans-serif;
+        font-size: 56px;
+        fill: #FFFFFF;
+        font-weight: 300;
+        letter-spacing: 12px;
+      }
+      .bold {
+        font-weight: 800;
+      }
+      .subtitle {
+        font-family: 'Outfit', system-ui, sans-serif;
+        font-size: 16px;
+        fill: #8ED1F9;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+      }
+    </style>
+    
+    <linearGradient id="wingDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#02569B" />
+      <stop offset="100%" stop-color="#01284A" />
+    </linearGradient>
+    <linearGradient id="wingLight" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#13B9FD" />
+      <stop offset="100%" stop-color="#42A5F5" />
+    </linearGradient>
+    
+    <clipPath id="clipRight">
+      <path d="M 380 90 L 520 340 L 440 340 L 380 200 Z" />
+    </clipPath>
+  </defs>
+
+  <g class="g-float" transform="translate(0, -30)">
+    <!-- Flutter-inspired Aerodynamic 'A' -->
+    
+    <!-- Left Wing (Darker) -->
+    <path class="wing-left" d="M 380 90 L 240 340 L 320 340 L 380 200 Z" />
+    
+    <!-- Crossbar -->
+    <path class="wing-cross" d="M 285 270 L 475 270 L 445 320 L 315 320 Z" />
+
+    <!-- Right Wing (Lighter, Flutter Cyan) -->
+    <g class="wing-right">
+      <path d="M 380 90 L 520 340 L 440 340 L 380 200 Z" />
+      <!-- Shine effect inside right wing -->
+      <g clip-path="url(#clipRight)">
+        <polygon points="-50,0 50,0 30,500 -70,500" fill="#FFFFFF" opacity="0.3" style="animation: gleam 4s infinite linear" />
+      </g>
+    </g>
+    
+    <!-- Subtle Air trails -->
+    <path d="M 200 320 Q 250 360, 310 320" fill="none" stroke="#13B9FD" stroke-width="4" stroke-linecap="round" opacity="0.5" />
+    <path d="M 560 320 Q 510 360, 450 320" fill="none" stroke="#13B9FD" stroke-width="4" stroke-linecap="round" opacity="0.5" />
+  </g>
+
+  <text class="logotext" x="380" y="440" text-anchor="middle"><tspan class="bold">AIR</tspan> FRAMEWORK</text>
+  <text class="subtitle" x="380" y="475" text-anchor="middle">FOR FLUTTER</text>
+</svg>

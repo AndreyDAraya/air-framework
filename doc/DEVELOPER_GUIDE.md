@@ -1,6 +1,8 @@
 # Air Framework - Developer Guide
 
-A modular, reactive, and scalable framework for Flutter. Build industrial-grade apps with a decoupled architecture.
+<p align="center">
+  <img src="assets/air-aero.svg" width="200" alt="Air Framework Logo" />
+</p>
 
 ---
 

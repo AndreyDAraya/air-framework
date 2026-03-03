@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3] - 2026-03-03
+
+### ✨ Visuals & Documentation
+
+- **Brand Identity**: Added the official Air Framework SVG logo to the README and Developer Guide.
+- **Documentation Site**: Updated the documentation site hero image and navigation logo for consistency.
+
 ## [1.0.2] - 2026-03-03
 
 ### 🔌 Air Adapters

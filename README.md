@@ -1,8 +1,13 @@
 # Air Framework 🚀
 
+<p align="center">
+  <img src="doc/assets/air-aero.svg" width="200" alt="Air Framework Logo" />
+</p>
+
 [![pub package](https://img.shields.io/pub/v/air_framework.svg?style=flat-square&color=blue)](https://pub.dev/packages/air_framework)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg?style=flat-square)](https://pub.dev/packages/flutter_lints)
+[![docs](https://img.shields.io/badge/docs-air--framework.flutter.md-blue?style=flat-square)](https://air-framework.flutter.md/)
 
 A **modular**, **reactive**, and **scalable** framework for Flutter. Build industrial-grade apps with a decoupled architecture inspired by enterprise app concepts.
 
@@ -251,6 +256,14 @@ Contributions are welcome! Please read our [contributing guidelines](https://git
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📖 Documentation
+
+For the full documentation, guides, and API reference visit:
+
+👉 **[air-framework.flutter.md](https://air-framework.flutter.md/)**
 
 ---
 
