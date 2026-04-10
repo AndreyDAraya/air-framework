@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2026-04-10
+
+### Bug Fixes
+
+- **Fixed `AppModule` lifecycle state machine**: Added `@mustCallSuper` to `onBind()` and `onInit()`. Subclasses that omitted `super` calls left the module permanently in `unloaded` state, silently breaking lifecycle tracking.
+- **Fixed `SecureServiceRegistry._safeNotify()` crash in headless environments**: The unconditional `SchedulerBinding.instance.addPostFrameCallback()` call threw in tests and background isolates where no binding is attached. Now falls back to direct `notifyListeners()` if `SchedulerBinding` is unavailable.
+- **Fixed `EventBus.dispose()` subscription leak in release builds**: `dispose()` previously delegated to `clearAll()`, which is guarded by `kDebugMode` and returns early in release — leaving all subscriptions alive. Now cancels subscriptions directly on dispose, bypassing the debug guard.
+- **Fixed `GeneratedInjection.inject<T>()` always throwing `UnimplementedError`**: Now delegates to `AirDI().get<T>()` as intended. This was shipped as public API with no implementation.
+- **Fixed `ModuleIdentityToken.verify()` ignoring the issued secret**: Added a check that `_secret.isNotEmpty` alongside the `moduleId` comparison, ensuring only properly issued tokens pass verification.
+- **Removed unused `archive: ^4.0.7` dependency**: The `archive` package was declared in `pubspec.yaml` but never imported anywhere in the framework. Removed to reduce bundle size.
+
 ## [1.0.3] - 2026-03-03
 
 ### ✨ Visuals & Documentation

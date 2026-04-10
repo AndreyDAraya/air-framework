@@ -31,10 +31,15 @@ class NotesModule extends AppModule {
 
   @override
   void onBind(AirDI di) {
+    PermissionChecker().registerModule(
+      id,
+      const ModulePermissions([ScopedPermission(Permission.eventEmit)]),
+    );
     // SYNC ONLY: Register dependencies
     // Services are registered but not initialized yet
     di.registerLazySingleton<NotesRepository>(() => NotesRepository());
     di.registerLazySingleton<NotesState>(() => NotesState());
+    super.onBind(di);
   }
 
   @override
@@ -46,6 +51,7 @@ class NotesModule extends AppModule {
 
     // Initialize state (triggers onInit and loads data)
     di.get<NotesState>();
+    super.onInit(di);
   }
 
   @override

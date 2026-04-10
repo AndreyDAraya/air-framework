@@ -25,3 +25,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+dependency_overrides:
+  air_framework:
+    path: ../
+  air_state:
+    path: ../../air_state
+  air_generator:
+    path: ../../air_generator
+  meta: ^1.18.0

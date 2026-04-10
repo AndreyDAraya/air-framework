@@ -1,5 +1,6 @@
 import 'package:air_state/air_state.dart';
 import '../communication/event_bus.dart';
+import '../di/di.dart';
 
 /// Base class for generated state classes
 /// INNOV-010: Code Generation Support
@@ -114,16 +115,11 @@ mixin GeneratedInjection {
   /// Override to inject dependencies
   void injectDependencies();
 
-  /// Helper to get a dependency
-  T inject<T>() {
-    // Will be implemented by the DI system
-    throw UnimplementedError('DI not configured');
-  }
+  /// Helper to get a dependency from AirDI
+  T inject<T>() => AirDI().get<T>();
 
-  /// Helper to get a dependency by key
-  T injectByKey<T>(String key) {
-    throw UnimplementedError('DI not configured');
-  }
+  /// Helper to get a dependency by key from AirDI
+  T injectByKey<T>(String key) => AirDI().get<T>();
 }
 
 /// Registry for generated pulses

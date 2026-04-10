@@ -22,6 +22,8 @@ import 'modules/weather/weather_module.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  PermissionChecker().enableStrictDebugMode(); // violations tiran excepción
+
   // Configure Air State for reactive state management
   configureAirState();
 

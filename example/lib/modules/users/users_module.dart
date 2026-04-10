@@ -37,6 +37,7 @@ class UsersModule extends AppModule {
     di.registerLazySingleton<UserService>(
       () => UserService(di.get()),
     );
+    super.onBind(di);
   }
 
   @override

@@ -3,6 +3,7 @@ import '../framework/router/air_route.dart';
 import '../framework/communication/event_bus.dart';
 import '../framework/communication/module_context.dart';
 import '../framework/di/di.dart';
+import '../framework/security/permissions.dart';
 import 'app_module.dart';
 
 /// Manages all registered modules in the Air Framework.
@@ -24,7 +25,15 @@ import 'app_module.dart';
 class ModuleManager extends ChangeNotifier {
   static final ModuleManager _instance = ModuleManager._internal();
   factory ModuleManager() => _instance;
-  ModuleManager._internal();
+  ModuleManager._internal() {
+    // Register 'system' so framework-internal events don't trigger bypass warnings
+    PermissionChecker().registerModule(
+      'system',
+      const ModulePermissions([
+        ScopedPermission(Permission.eventEmit),
+      ]),
+    );
+  }
 
   final List<AppModule> _modules = [];
   final Map<String, ModuleContext> _contexts = {};

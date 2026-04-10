@@ -124,6 +124,7 @@ abstract class AppModule {
   /// the class/service here and handle its initialization in [onInit].
   ///
   /// [di] The dependency injection container instance.
+  @mustCallSuper
   void onBind(AirDI di) {
     _state = ModuleLifecycleState.binding;
     debugPrint('[$id] onBind');
@@ -142,6 +143,7 @@ abstract class AppModule {
   /// to be ready before the module is marked as [ModuleLifecycleState.initialized].
   ///
   /// [di] The dependency injection container instance.
+  @mustCallSuper
   Future<void> onInit(AirDI di) async {
     _state = ModuleLifecycleState.initializing;
     debugPrint('[$id] onInit');

@@ -22,9 +22,9 @@ class ModuleIdentityToken {
     return ModuleIdentityToken._(moduleId, secret, DateTime.now());
   }
 
-  /// Verify if the token matches the expected module ID
+  /// Verify if the token matches the expected module ID and was properly issued
   bool verify(String expectedModuleId) {
-    return moduleId == expectedModuleId;
+    return moduleId == expectedModuleId && _secret.isNotEmpty;
   }
 
   @override

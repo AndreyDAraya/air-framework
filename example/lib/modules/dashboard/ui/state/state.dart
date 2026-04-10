@@ -1,13 +1,15 @@
 // ignore_for_file: unused_field
 import 'package:air_framework/air_framework.dart';
 
+import '../../../notes/events/events.dart';
+
 part 'state.air.g.dart';
 
 /// Dashboard state for local dashboard-specific data.
 ///
-/// Note: The Dashboard module primarily consumes state from other modules
-/// (Notes, Weather) rather than managing extensive state of its own.
-/// This demonstrates cross-module state access patterns.
+/// Note: Notes summary data is received via EventBus (NotesChangedEvent)
+/// to demonstrate proper cross-module communication — no direct imports
+/// of other modules' state classes.
 @GenerateState('dashboard')
 class DashboardState extends _DashboardState {
   // ═══════════════════════════════════════════════════════════════════════════
@@ -22,6 +24,37 @@ class DashboardState extends _DashboardState {
 
   /// Whether tips are dismissed
   final bool _tipsDismissed = false;
+
+  /// Notes count — updated reactively via NotesChangedEvent (EventBus)
+  final int _notesCount = 0;
+
+  /// Pinned notes count — updated reactively via NotesChangedEvent (EventBus)
+  final int _pinnedNotesCount = 0;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LIFECYCLE
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  EventSubscription? _notesSub;
+
+  @override
+  void onInit() {
+    // Subscribe to notes changes — no direct import of NotesState needed.
+    // Notes module emits NotesChangedEvent after every mutation.
+    _notesSub = EventBus().on<NotesChangedEvent>(
+      (event) {
+        notesCount = event.totalCount;
+        pinnedNotesCount = event.pinnedCount;
+      },
+      subscriberModuleId: 'dashboard',
+    );
+  }
+
+  @override
+  void dispose() {
+    _notesSub?.cancel();
+    super.dispose();
+  }
 
   // ═══════════════════════════════════════════════════════════════════════════
   // PULSES

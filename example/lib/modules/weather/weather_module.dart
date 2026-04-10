@@ -26,14 +26,20 @@ class WeatherModule extends AppModule {
 
   @override
   void onBind(AirDI di) {
-    // Register weather service
+    super.onBind(di);
+    PermissionChecker().registerModule(
+      id,
+      const ModulePermissions([
+        ScopedPermission(Permission.eventEmit),
+      ]),
+    );
     di.registerLazySingleton<WeatherService>(() => WeatherService());
-    // Register weather state
     di.registerLazySingleton<WeatherState>(() => WeatherState());
   }
 
   @override
   Future<void> onInit(AirDI di) async {
+    await super.onInit(di);
     // Initialize state (triggers onInit which fetches initial weather)
     di.get<WeatherState>();
   }

@@ -37,6 +37,14 @@ class DashboardFlows {
   /// Flow: tipsDismissed
   static const tipsDismissed =
       SimpleStateKey<bool>('dashboard.tipsDismissed', defaultValue: false);
+
+  /// Flow: notesCount (received via EventBus — no direct NotesState import)
+  static const notesCount =
+      SimpleStateKey<int>('dashboard.notesCount', defaultValue: 0);
+
+  /// Flow: pinnedNotesCount (received via EventBus — no direct NotesState import)
+  static const pinnedNotesCount =
+      SimpleStateKey<int>('dashboard.pinnedNotesCount', defaultValue: 0);
 }
 
 /// Base class for DashboardState
@@ -73,6 +81,20 @@ abstract class _DashboardState extends AirState {
   /// Set tipsDismissed value
   set tipsDismissed(bool value) => Air()
       .typedFlow(DashboardFlows.tipsDismissed, value, sourceModuleId: moduleId);
+
+  /// Get notesCount value
+  int get notesCount => Air().typedGet(DashboardFlows.notesCount);
+
+  /// Set notesCount value
+  set notesCount(int value) =>
+      Air().typedFlow(DashboardFlows.notesCount, value, sourceModuleId: moduleId);
+
+  /// Get pinnedNotesCount value
+  int get pinnedNotesCount => Air().typedGet(DashboardFlows.pinnedNotesCount);
+
+  /// Set pinnedNotesCount value
+  set pinnedNotesCount(int value) => Air().typedFlow(
+      DashboardFlows.pinnedNotesCount, value, sourceModuleId: moduleId);
 
   @override
   void onPulses() {

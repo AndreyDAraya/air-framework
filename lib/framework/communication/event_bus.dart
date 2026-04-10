@@ -637,7 +637,19 @@ class EventBus extends ChangeNotifier {
   @override
   void dispose() {
     _cleanupTimer?.cancel();
-    clearAll();
+    // Cancel all subscriptions directly — avoids kDebugMode guard in clearAll()
+    for (final subs in _subscriptions.values) {
+      for (final s in subs) {
+        s.cancel();
+      }
+    }
+    _subscriptions.clear();
+    for (final subs in _signalSubscriptions.values) {
+      for (final s in subs) {
+        s.cancel();
+      }
+    }
+    _signalSubscriptions.clear();
     super.dispose();
   }
 }

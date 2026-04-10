@@ -29,11 +29,13 @@ class ShellModule extends AppModule {
   @override
   void onBind(AirDI di) {
     // Shell module doesn't need DI registrations
+    super.onBind(di);
   }
 
   @override
   Future<void> onInit(AirDI di) async {
     // No async initialization needed
+    super.onInit(di);
   }
 
   @override

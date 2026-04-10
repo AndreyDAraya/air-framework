@@ -125,12 +125,16 @@ class SecureServiceRegistry extends ChangeNotifier {
     }
   }
 
-  /// Safely notify listeners, deferring if called during build
+  /// Safely notify listeners, deferring if called during build.
+  /// Falls back to direct notify in headless environments (tests, background isolates).
   void _safeNotify() {
-    // Use addPostFrameCallback to defer notification if in build phase
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
-    });
+    try {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        if (hasListeners) notifyListeners();
+      });
+    } catch (_) {
+      if (hasListeners) notifyListeners();
+    }
   }
 
   /// Get all registered service descriptors (for debugging)

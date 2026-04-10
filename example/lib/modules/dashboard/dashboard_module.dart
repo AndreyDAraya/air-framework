@@ -25,17 +25,25 @@ class DashboardModule extends AppModule {
   @override
   String get initialRoute => '/dashboard';
 
-  @override
-  List<String> get dependencies => ['notes', 'weather'];
+  // @override
+  // List<String> get dependencies => ['notes', 'weather'];
 
   @override
   void onBind(AirDI di) {
+    super.onBind(di);
+    PermissionChecker().registerModule(
+      id,
+      const ModulePermissions([
+        ScopedPermission(Permission.eventListen),
+      ]),
+    );
     di.registerLazySingleton<DashboardState>(() => DashboardState());
   }
 
   @override
   Future<void> onInit(AirDI di) async {
     di.get<DashboardState>();
+    super.onInit(di);
   }
 
   @override

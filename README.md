@@ -95,6 +95,7 @@ class CounterModule extends AppModule {
 
   @override
   void onBind(AirDI di) {
+    super.onBind(di);
     // Register dependencies lazily
     di.registerLazySingleton<CounterState>(() => CounterState());
   }

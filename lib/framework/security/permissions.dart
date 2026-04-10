@@ -104,6 +104,10 @@ class PermissionChecker {
   /// Enable/disable permission checking (disabled in debug mode by default)
   bool _enabled = !kDebugMode;
 
+  /// In debug mode, throw instead of bypass on permission violations.
+  /// Useful for TDD of permissions. Off by default.
+  bool _strictDebugMode = false;
+
   /// Enable permission checking
   void enable() => _enabled = true;
 
@@ -112,6 +116,30 @@ class PermissionChecker {
 
   /// Check if permission checking is enabled
   bool get isEnabled => _enabled;
+
+  /// Enable strict debug mode — permission violations throw even in debug.
+  /// Call this in main() during development to catch missing permissions early.
+  ///
+  /// ```dart
+  /// void main() async {
+  ///   PermissionChecker().enableStrictDebugMode(); // catch violations early
+  ///   configureAirState();
+  ///   ...
+  /// }
+  /// ```
+  void enableStrictDebugMode() {
+    assert(kDebugMode, 'strictDebugMode has no effect in release builds.');
+    _strictDebugMode = true;
+    debugPrint(
+      '\x1B[33m[Air Security] Strict debug mode ON — permission violations will throw.\x1B[0m',
+    );
+  }
+
+  /// Disable strict debug mode
+  void disableStrictDebugMode() => _strictDebugMode = false;
+
+  /// Whether strict debug mode is active
+  bool get isStrictDebugMode => _strictDebugMode;
 
   /// Register permissions for a module
   void registerModule(String moduleId, ModulePermissions permissions) {
@@ -153,9 +181,13 @@ class PermissionChecker {
     if (!allowed) {
       if (!_enabled) {
         if (logViolation) {
-          AirLogger.warning(
-            'Permission Bypass (DEBUG): Module "$moduleId" lacks ${permission.name} '
-            'permission for ${resource ?? "any resource"}. Register it in the module.',
+          _logDebugBypass(moduleId, permission, resource);
+        }
+        if (_strictDebugMode) {
+          throw PermissionDeniedException(
+            moduleId: moduleId,
+            permission: permission,
+            resource: resource,
           );
         }
         return true; // Bypass when disabled (typically in debug)
@@ -190,6 +222,39 @@ class PermissionChecker {
         resource: resource,
       );
     }
+  }
+
+  void _logDebugBypass(
+    String moduleId,
+    Permission permission,
+    String? resource,
+  ) {
+    const yellow = '\x1B[33m';
+    const reset = '\x1B[0m';
+    final resourceLabel = resource != null ? ' → $resource' : '';
+    final fix =
+        'PermissionChecker().registerModule("$moduleId", ModulePermissions([ScopedPermission(Permission.${permission.name})]));';
+
+    debugPrint('$yellow⚠ AIR PERMISSION BYPASS [DEBUG] ─────────────────────$reset');
+    debugPrint('$yellow  Module : $moduleId$reset');
+    debugPrint('$yellow  Needs  : ${permission.name}$resourceLabel$reset');
+    debugPrint('$yellow  Fix    : $fix$reset');
+    debugPrint('$yellow  Tip    : Call PermissionChecker().enableStrictDebugMode()$reset');
+    debugPrint('$yellow         : to throw instead of bypass.$reset');
+    debugPrint('$yellow─────────────────────────────────────────────────────$reset');
+
+    AirAudit().log(
+      type: AuditType.securityViolation,
+      action: 'permission_bypass_debug',
+      moduleId: moduleId,
+      context: {
+        'permission': permission.name,
+        'resource': resource,
+        'mode': 'debug_bypass',
+      },
+      severity: AuditSeverity.low,
+      success: true,
+    );
   }
 
   void _logViolation(

@@ -2,6 +2,7 @@
 import 'package:air_framework/air_framework.dart';
 import 'package:flutter/material.dart';
 
+import '../../events/events.dart';
 import '../../models/note.dart';
 import '../../services/notes_repository.dart';
 
@@ -68,6 +69,7 @@ class NotesState extends _NotesState {
       });
 
       notes = loadedNotes;
+      _emitNotesChanged();
     } catch (e) {
       error = 'Failed to load notes: $e';
     } finally {
@@ -97,6 +99,7 @@ class NotesState extends _NotesState {
 
       await repository.addNote(newNote);
       notes = [newNote, ...notes];
+      _emitNotesChanged();
     } catch (e) {
       error = 'Failed to add note: $e';
     } finally {
@@ -121,6 +124,7 @@ class NotesState extends _NotesState {
 
       notes = updatedList;
       selectedNote = null;
+      _emitNotesChanged();
     } catch (e) {
       error = 'Failed to update note: $e';
     } finally {
@@ -137,6 +141,7 @@ class NotesState extends _NotesState {
       final repository = AirDI().get<NotesRepository>();
       await repository.deleteNote(id);
       notes = notes.where((n) => n.id != id).toList();
+      _emitNotesChanged();
     } catch (e) {
       error = 'Failed to delete note: $e';
     }
@@ -186,4 +191,18 @@ class NotesState extends _NotesState {
   /// Get count statistics
   int get totalCount => notes.length;
   int get pinnedCount => notes.where((n) => n.isPinned).length;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRIVATE HELPERS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  void _emitNotesChanged() {
+    EventBus().emit(
+      NotesChangedEvent(
+        sourceModuleId: 'notes',
+        totalCount: totalCount,
+        pinnedCount: pinnedCount,
+      ),
+    );
+  }
 }
