@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.7]
+
+### Enhancements
+
+- **Integration**: Bumped `air_state` dependency to `^1.0.7` to include the new Strong Type Retention fix in `AirListener`, which prevents generic type erasure and strictly enforces state types.
+
 All notable changes to this project will be documented in this file.
 
 ## [1.0.6]
