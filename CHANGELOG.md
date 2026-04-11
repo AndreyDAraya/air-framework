@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.6]
+
+### Enhancements
+
+- **Integration**: Bumped `air_state` dependency to `^1.0.6` to include the new `AirPulse` callable class shorthand — enables `AuthPulses.clearMessages(null)` syntax.
+
+## [1.0.5]
+
+### Enhancements
+
+- **Integration**: Bumped `air_state` dependency to `^1.0.5` to include the new `AirListener` API for decoupled side-effect management.
+
 ## [1.0.4] - 2026-04-10
 
 ### Bug Fixes

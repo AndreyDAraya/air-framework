@@ -4,7 +4,7 @@ homepage: https://github.com/AndreyDAraya/air-framework
 repository: https://github.com/AndreyDAraya/air-framework
 issue_tracker: https://github.com/AndreyDAraya/air-framework/issues
 
-version: 1.0.4
+version: 1.0.6
 
 topics:
   - flutter
@@ -22,7 +22,7 @@ dependencies:
   path: ^1.9.1
   cupertino_icons: ^1.0.9
   go_router: ^17.2.0
-  air_state: ^1.0.4
+  air_state: ^1.0.6
 
 dev_dependencies:
   flutter_test:

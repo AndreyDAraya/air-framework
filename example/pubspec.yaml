@@ -10,8 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  air_framework:
-    path: ../
+  air_framework: ^1.0.6
   dio: ^5.9.2
   shared_preferences: ^2.2.2
   intl: ^0.19.0
@@ -25,12 +24,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-dependency_overrides:
-  air_framework:
-    path: ../
-  air_state:
-    path: ../../air_state
-  air_generator:
-    path: ../../air_generator
-  meta: ^1.18.0
